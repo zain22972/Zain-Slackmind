@@ -1,137 +1,139 @@
-# React Hyderabad x Masters' Union AI Buildathon
+# 🧠 SlackMind — Intelligent Slack Knowledge Base (ISKB)
 
-Welcome to the official open-source submission repository for the **React Hyderabad x Masters' Union AI Buildathon**.
-
-This buildathon is focused on solving **real-world business problems using AI**. The goal is not just to write code, but to understand a problem, think from a business perspective, use the right tools, build a working solution, and present it clearly.
-
-This repository will act as the central place where all participant submissions are listed.
-
-Your actual project/code should be maintained in your own GitHub repository. This repo is only for submitting your project details.
+SlackMind bridges the gap between institutional knowledge silos (PDFs, URLs, local documents) and your primary communication workspace on Slack. By integrating a retrieval-augmented generation (RAG) backend powered by Google Gemini and ChromaDB/Pinecone with a modern React admin dashboard, SlackMind allows team members to query, search, and summarize workspace files instantly without leaving Slack.
 
 ---
 
-## How to Participate
+## 🚀 Key Features
 
-1. Fork this repository.
-
-2. Create your own project repository on GitHub.
-
-3. Pick one of the problem statements from `PROBLEM_STATEMENTS.md`.
-
-4. Build your project in your own GitHub repository.
-
-5. In your fork of this repository, go to the `submissions/` folder.
-
-6. Create a new markdown file using this naming format:
-
-```txt
-projectname_attendeeName.md
-```
-
-Example:
-
-```txt
-ai-sales-copilot_shlok-srivastava.md
-```
-
-7. Use `SUBMISSION_TEMPLATE.md` as the blueprint for your submission.
-
-8. Fill in all the required details:
-
-   * Project name
-   * Your name
-   * Problem statement selected
-   * Project description
-   * Approach
-   * Tools and technologies used
-   * GitHub project link
-   * LinkedIn profile
-   * GitHub username
-
-9. Raise a Pull Request to this repository.
-
-10. Get your Pull Request merged.
+*   **Multi-Format Ingestion Engine**: Parse and ingest text from `.pdf`, `.docx`, `.txt` files, and raw web URLs.
+*   **A.I. Auto-Tagging**: Documents are automatically analyzed during upload by Gemini to extract relevant tags for categorization.
+*   **Natural Language Workspace Q&A**: Simply `@mention` the bot in any channel or DM to query the knowledge base.
+*   **Deterministic Citations**: Answers include a `Sources Used:` list to ensure all responses are grounded and verifiable.
+*   **Slack Commands**:
+    *   `/summarize [document_name]`: Instantly generate 3-5 bullet-point key takeaways of any document.
+    *   `/ingest-url [url]`: Index web page content directly from Slack.
+    *   `/ingest-thread [thread_ts]`: Archive a discussion thread into the team's knowledge base.
+*   **Security Access Control**: Mapped knowledge scopes (`Org` wide, channel-based `Team`, or individual `Private` user scope).
+*   **Sleek Management Dashboard**: Real-time React dashboard for uploading files, monitoring indexing progress, and searching the database.
 
 ---
 
-## Important Submission Note
+## 🛠️ Tech Stack
 
-Please make sure your Pull Request is raised and merged today.
-
-Even if your project is incomplete, you should still submit your project details by creating a Pull Request.
-
-You can continue building and improving your actual project in your own GitHub repository after the submission PR is merged.
-
-The purpose of this repository is to make the buildathon open, transparent, and community-driven.
-
----
-
-## Submission Rules
-
-1. Each participant must submit their own project.
-
-2. Your actual project code should be in your own GitHub repository.
-
-3. Do not push your project code directly into this repository.
-
-4. This repository should only contain participant submission files.
-
-5. Each submission file must be added inside the `submissions/` folder.
-
-6. Use the correct file naming format:
-
-```txt
-projectname_attendeeName.md
-```
-
-7. Make sure your project repository is public, so mentors, judges, and the community can view it.
-
-8. Do not commit API keys, private tokens, passwords, or secret credentials in your project repository.
-
-9. If your project is still a work in progress, mention that clearly in your submission.
-
-10. Keep your submission clear, honest, and easy to understand.
+*   **Frontend**: React (Vite), styled with clean, responsive modern CSS.
+*   **Backend Orchestrator**: FastAPI (Python 3.10+) for asynchronous webhook handling and REST APIs.
+*   **AI Models**:
+    *   **LLM**: Google Gemini (`gemini-2.5-flash` / `gemini-3.1-flash-lite` for auto-tagging).
+    *   **Embeddings**: Google Generative AI Embeddings (`models/text-embedding-004`).
+*   **Vector Database**: ChromaDB (local persistent vector store) / Pinecone (Serverless cloud option).
+*   **Slack Integration**: Slack Bolt framework.
 
 ---
 
-## Pull Request Title Format
+## 📐 Architecture & Workflow
 
-Please use this format for your Pull Request title:
-
-```txt
-Submission: Project Name - Attendee Name
-```
-
-Example:
-
-```txt
-Submission: AI Sales Copilot - Shlok Srivastava
+```mermaid
+graph TD
+    A[React Admin Dashboard] -->|API: Upload File / URL| B(FastAPI Server)
+    C[Slack Workspace] -->|Mentions / Slash Commands| B
+    B -->|Ingestion & Chunking| D[LangChain Pipeline]
+    D -->|Generate Embeddings| E[Google Gemini API]
+    D -->|Upsert Chunks & Metadata| F[ChromaDB / Pinecone]
+    F -->|Semantic Similarity Search| B
+    B -->|Grounded AI Response| C
 ```
 
 ---
 
-## What Makes a Good Submission?
+## 🔐 Security & Repository Cleanliness
 
-A good submission should clearly explain:
-
-* What problem you selected
-* What your project does
-* Why your solution is useful
-* How you approached the problem
-* What AI tools or technologies you used
-* What is already working
-* What you plan to improve next
-
-The project does not have to be perfect. We care about your thought process, execution, learning, and ability to solve a real-world problem.
+We enforce strict data protection and security scanning policies:
+*   **Zero Credentials Hardcoding**: All secrets and API keys (Google Gemini, Slack tokens) are kept strictly out of the code and read dynamically from `.env` using environment variables.
+*   **Pre-configured `.gitignore`**: The root configuration blocks pushing local configurations and dependencies (`.env`, `.venv/`, `chroma_db/`, and `node_modules/`) to remote source control.
 
 ---
 
-## About the Buildathon
+## ⚙️ Setup & Installation
 
-This buildathon is hosted by **React Hyderabad** in collaboration with **Masters' Union**.
+### 1. Prerequisites
+Ensure you have the following installed:
+*   Python 3.10+
+*   Node.js (v18+)
+*   `ngrok` (for forwarding Slack webhooks to local server)
 
-The goal is to bring builders together to solve meaningful business problems using AI, frontend, backend, cloud, automation, and modern development tools.
+### 2. Environment Configuration
+Create a `.env` file in the root folder of the project with the following keys:
+```env
+# Google Gemini Configuration
+GOOGLE_API_KEY=your_gemini_api_key_here
 
-Build with intent.
-Solve with clarity.
-Ship with confidence.
+# Vector DB Configuration (defaults to 'chroma')
+VECTOR_DB_PROVIDER=chroma
+
+# Slack Configuration
+SLACK_BOT_TOKEN=xoxb-your-bot-token
+SLACK_SIGNING_SECRET=your-signing-secret
+SLACK_APP_TOKEN=xapp-your-app-token
+```
+
+### 3. Backend Setup
+Navigate to the root directory and install Python dependencies:
+```bash
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r backend/requirements.txt
+
+# Run the FastAPI server
+uvicorn backend.main:app --reload
+```
+The backend will run on `http://127.0.0.1:8000`.
+
+### 4. Public Tunnel Setup
+Run `ngrok` to expose your local port:
+```bash
+ngrok http 8000
+```
+Copy the forwarding HTTPS URL (e.g. `https://xxxx.ngrok-free.app`).
+
+### 5. Slack Bot Setup
+1. Go to [Slack API Dashboard](https://api.slack.com/apps) and create a new App.
+2. Under **OAuth & Permissions**, add these bot scopes:
+    *   `app_mentions:read`
+    *   `chat:write`
+    *   `commands`
+3. Under **Event Subscriptions**:
+    *   Toggle **Enable Events** to On.
+    *   Paste your `ngrok` URL with the `/slack/events` path: `https://xxxx.ngrok-free.app/slack/events`
+    *   Subscribe to the bot event: `app_mention`.
+4. Under **Slash Commands**, register the following:
+    *   `/summarize`
+    *   `/ingest-url`
+    *   `/ingest-thread`
+5. Install the app to your workspace and copy the Bot Token and Signing Secret into your `.env`.
+
+### 6. Frontend Setup
+Navigate to the `frontend/` directory, install packages, and start the development server:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open `http://localhost:5173` in your browser.
+
+---
+
+## 📋 Hackathon Evaluation Benchmarks
+
+| Metric | Baseline State | SlackMind Target |
+| :--- | :--- | :--- |
+| **Response Generative Accuracy** | General Knowledge / Hallucinations | $\ge 80\%$ Grounded, Factually Verifiable Outputs |
+| **Operational Latency** | Manual search: Minutes to Hours | AI Semantic Retrieval: $< 5\text{s}$ |
+| **Enterprise Data Scope** | Siloed local/personal drives | Centralized Access Layer (Org, Team, Private) |
+| **Supported Media Inputs** | PDF and Text files only | Multi-source (PDF, DOCX, Web URLs, Slack Threads) |
+
+---
+*Developed during the AI Buildathon. Build with intent, solve with clarity.*
