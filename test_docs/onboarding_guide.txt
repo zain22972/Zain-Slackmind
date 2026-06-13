@@ -1,0 +1,25 @@
+Onboarding Guide for New Team Members
+
+Welcome to the Intelligent Slack Knowledge Base (ISKB) project! This guide will help you get up to speed quickly.
+
+ISKB is designed to be an AI-powered knowledge management system that lives inside Slack. It automatically indexes documents, answers questions using Retrieval-Augmented Generation (RAG), and keeps team knowledge organized.
+
+As a new team member, you should start by understanding the core architecture:
+1. The backend is built with FastAPI
+2. We use LangChain for the RAG pipeline
+3. Google Gemini provides the LLM and embedding capabilities
+4. Vector storage can use either Pinecone (cloud) or ChromaDB (local)
+
+Key files to review:
+- backend/main.py: Main FastAPI application
+- backend/ingest.py: Document ingestion pipeline
+- backend/seed.py: Batch seeding script for documents
+
+Getting started steps:
+1. Clone the repository
+2. Install dependencies from requirements.txt
+3. Set your environment variables in .env
+4. Run the application with uvicorn main:app --reload
+5. Try uploading a test document via the /api/documents/upload endpoint
+
+For questions, please reach out to the team leads or check the project README.

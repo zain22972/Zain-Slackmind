@@ -1,0 +1,3 @@
+InfoSec Guideline: Marketing Automation
+
+All Marketing Automation systems must comply with SOC2 standards. Data encryption at rest (AES-256) and in transit (TLS 1.3) is mandatory. Access to Marketing Automation databases requires MFA and is granted on a least-privilege basis. Regular audits will be conducted every 60 months.

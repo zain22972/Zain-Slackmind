@@ -1,0 +1,27 @@
+Intelligent Slack Knowledge Base (ISKB) — Project Overview
+
+Mission:
+Build an AI-powered knowledge base that integrates directly into Slack, enabling teams to ask questions and get instant, context-aware answers from their internal documentation.
+
+Key Features:
+1. Document Ingestion: Upload PDFs, text files, or point to URLs. The system automatically chunks and indexes them.
+2. Semantic Search: Uses vector similarity to find the most relevant document chunks for any query.
+3. RAG Pipeline: Combines retrieved chunks with a large language model to generate accurate, sourced answers.
+4. Slack Integration: Users can ask questions directly in Slack channels or via DM.
+5. Scoping: Answers can be scoped to the whole organization, a specific team channel, or a single user.
+
+Technology Stack:
+- Backend: FastAPI (Python)
+- AI/ML: LangChain, Google Gemini (LLM + Embeddings)
+- Vector DB: Pinecone (cloud) or ChromaDB (local)
+- Frontend: Web dashboard for document management
+- Deployment: Docker / Cloud Run ready
+
+Project Structure:
+- backend/: FastAPI app, ingestion pipeline, seed scripts
+- frontend/: Web dashboard
+- test_docs/: Sample documents for testing
+- .env: Environment variables
+
+Getting Started:
+See the README and backend deployment notes for setup instructions.

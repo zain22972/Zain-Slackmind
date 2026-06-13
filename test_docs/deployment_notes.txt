@@ -1,0 +1,28 @@
+Deployment Notes for ISKB
+
+Environment Setup:
+- Python 3.10 or higher is required
+- Create a virtual environment: python -m venv .venv
+- Activate it: source .venv/bin/activate (Linux/Mac) or .venv\Scripts\activate (Windows)
+- Install dependencies: pip install -r backend/requirements.txt
+
+Environment Variables:
+Ensure the following are set in your .env file:
+- GOOGLE_API_KEY: Your Google Gemini API key
+- PINECONE_API_KEY: (Optional) For Pinecone cloud storage
+- SLACK_BOT_TOKEN: For Slack integration
+- SLACK_SIGNING_SECRET: For Slack request verification
+
+Running Locally:
+- Start the server: cd backend && uvicorn main:app --reload
+- Access docs at: http://localhost:8000/docs
+
+Running the Seed Script:
+- Place test documents in ./test_docs/
+- Run: python backend/seed.py
+- Verify chunks are stored by checking the vector DB
+
+Production Deployment:
+- Use a WSGI/ASGI server like Gunicorn or Uvicorn workers
+- Set VECTOR_DB_PROVIDER=pinecone for cloud vector storage
+- Ensure ChromaDB persist directory is on persistent storage if using local mode

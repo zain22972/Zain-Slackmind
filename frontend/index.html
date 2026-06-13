@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SlackMind — Workspace Knowledge Base</title>
+    <meta name="description" content="SlackMind: AI-powered Slack knowledge base with RAG-powered Q&A, document ingestion, and multi-turn conversation." />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts: Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+
+    <!-- Material Symbols Outlined -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind Design System Config (Linen & Bloom) -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#e6e2d7",
+              "on-primary-fixed": "#39081a",
+              "on-primary-fixed-variant": "#6f3444",
+              "surface-container": "#f5ece7",
+              "error": "#ba1a1a",
+              "tertiary-container": "#95cc9b",
+              "on-tertiary-container": "#245731",
+              "text-main": "#2D2926",
+              "on-primary": "#ffffff",
+              "on-surface-variant": "#524346",
+              "error-container": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "surface": "#fff8f5",
+              "on-secondary-fixed-variant": "#48473f",
+              "surface-muted": "#EBE7DB",
+              "cherry-blossom": "#F9A8BB",
+              "on-tertiary-fixed-variant": "#1d502b",
+              "background": "#fff8f5",
+              "secondary-fixed-dim": "#cac6bc",
+              "inverse-primary": "#ffb1c3",
+              "secondary-fixed": "#e6e2d7",
+              "on-error-container": "#93000a",
+              "tertiary": "#366940",
+              "primary": "#8b4b5c",
+              "inverse-surface": "#34302c",
+              "inverse-on-surface": "#f8efea",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#9cd4a2",
+              "surface-bright": "#fff8f5",
+              "text-subtle": "#706C61",
+              "outline": "#847376",
+              "surface-container-low": "#fbf2ed",
+              "on-primary-container": "#773a4b",
+              "surface-variant": "#e9e1dc",
+              "on-secondary-fixed": "#1c1c15",
+              "on-background": "#1e1b18",
+              "secondary": "#605e56",
+              "surface-dim": "#e1d8d4",
+              "on-error": "#ffffff",
+              "primary-fixed": "#ffd9e0",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#efe6e2",
+              "tertiary-fixed": "#b8f0bd",
+              "surface-tint": "#8b4b5c",
+              "outline-variant": "#d6c1c5",
+              "on-surface": "#1e1b18",
+              "surface-container-highest": "#e9e1dc",
+              "primary-container": "#f9a8bb",
+              "soft-linen": "#F5F1E6",
+              "primary-fixed-dim": "#ffb1c3",
+              "on-secondary-container": "#66645c",
+              "on-tertiary-fixed": "#00210a"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            spacing: {
+              lg: "48px",
+              sm: "12px",
+              xs: "4px",
+              "sidebar-width": "280px",
+              md: "24px",
+              xl: "80px",
+              gutter: "24px",
+              base: "8px",
+              "container-max": "1280px"
+            },
+            fontFamily: {
+              "body-md": ["Open Sans"],
+              "headline-sm": ["Open Sans"],
+              "body-sm": ["Open Sans"],
+              "body-lg": ["Open Sans"],
+              "headline-lg": ["Open Sans"],
+              "label-md": ["Open Sans"],
+              "headline-lg-mobile": ["Open Sans"],
+              "headline-md": ["Open Sans"]
+            },
+            fontSize: {
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+              "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+              "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+              "headline-lg-mobile": ["26px", { lineHeight: "32px", fontWeight: "700" }],
+              "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }]
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      body { background-color: #F5F1E6; font-family: 'Open Sans', sans-serif; }
+      .ambient-shadow { box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+      .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+      .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.06); }
+      .border-subtle { border-color: rgba(0,0,0,0.05); }
+      .drag-active { border-color: #F9A8BB !important; background-color: rgba(249,168,187,0.05) !important; box-shadow: 0 0 15px rgba(249,168,187,0.2); }
+      .soft-shadow-hover:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.04); transform: translateY(-2px); transition: all 0.3s ease; }
+      textarea:focus { outline: none; box-shadow: none; }
+      .chat-fade-in { animation: fadeSlideUp 0.3s ease forwards; }
+      @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

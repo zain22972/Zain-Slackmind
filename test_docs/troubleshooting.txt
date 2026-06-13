@@ -1,0 +1,27 @@
+Troubleshooting Guide for ISKB
+
+Issue: Documents are not being indexed
+- Check that the file format is supported (PDF or TXT)
+- Verify the GOOGLE_API_KEY is set and valid
+- Check the backend logs for embedding or vector DB errors
+- Ensure the vector DB is accessible (Pinecone API key valid or ChromaDB directory writable)
+
+Issue: Slack events are not being received
+- Verify the Slack app is configured with the correct request URL
+- Ensure SLACK_BOT_TOKEN and SLACK_SIGNING_SECRET are correct
+- Check that your server is publicly accessible (use ngrok for local testing)
+
+Issue: Similarity search returns irrelevant results
+- Check the chunk size and overlap settings in ingest.py
+- Verify the correct embedding model is being used (text-embedding-004)
+- Ensure documents are being indexed with the correct scope
+
+Issue: Slow response times
+- Consider using a caching layer for frequently asked questions
+- Batch document embeddings when seeding large document sets
+- Use a more powerful embedding model if available
+
+Issue: ChromaDB not persisting data
+- Ensure CHROMA_PERSIST_DIR is set to a valid directory path
+- Verify the directory has write permissions
+- Call store.persist() after adding documents

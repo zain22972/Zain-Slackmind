@@ -1,0 +1,21 @@
+Retrieval-Augmented Generation (RAG) Architecture for ISKB
+
+ISKB uses a standard RAG pipeline to answer user questions based on internal documentation. The pipeline consists of four stages:
+
+1. Ingestion:
+   Documents are loaded from multiple sources: PDFs, text files, and URLs. Each document is split into chunks using the RecursiveCharacterTextSplitter with a chunk size of 1000 tokens and 200 tokens overlap.
+
+2. Embedding:
+   Each chunk is converted into a 768-dimensional vector using the Google Gemini text-embedding-004 model. These vectors capture the semantic meaning of the text.
+
+3. Storage:
+   Vectors are stored in a vector database. For production, Pinecone is preferred. For local development, ChromaDB is used.
+
+4. Retrieval & Generation:
+   When a user asks a question, the system:
+   a. Embeds the question using the same embedding model
+   b. Performs a similarity search in the vector database to retrieve the top-K most relevant chunks
+   c. Passes these chunks as context to the Google Gemini LLM
+   d. Returns the generated answer to the user
+
+Metadata such as source, scope, and timestamp are attached to each chunk to enable filtering and auditing.

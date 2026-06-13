@@ -1,0 +1,9 @@
+Technical Specification: Marketing Automation
+Version: 1.8
+
+Overview:
+This system is designed to handle Marketing Automation at scale. Architecture involves microservices written in Go and Node.js. Databases used include PostgreSQL for transactional data and Redis for caching.
+
+API Endpoints:
+- /api/v1/Marketing Automation/status
+- /api/v1/Marketing Automation/metrics

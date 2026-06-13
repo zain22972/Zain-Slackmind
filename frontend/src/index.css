@@ -1,0 +1,4 @@
+/* Global reset — all design tokens are in index.html Tailwind config */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: #F5F1E6; }
+.material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-size: 24px; font-style: normal; font-weight: normal; line-height: 1; letter-spacing: normal; text-transform: none; white-space: nowrap; word-wrap: normal; direction: ltr; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased; }

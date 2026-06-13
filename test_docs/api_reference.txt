@@ -1,0 +1,27 @@
+API Reference for ISKB Backend
+
+The ISKB backend exposes a REST API built with FastAPI. Below are the main endpoints.
+
+Health Check
+GET /health
+Returns: {"status": "healthy"}
+
+Document Upload
+POST /api/documents/upload
+Content-Type: multipart/form-data
+Parameters:
+  - file: The document file to upload (PDF or TXT)
+  - scope: Optional. One of "org", "team_<channel_id>", "user_<user_id>". Default is "org".
+Returns: {"status": "indexed", "document": "filename.pdf", "chunks": 5}
+
+List Documents
+GET /api/documents
+Returns: JSON list of documents with source, scope, and timestamp metadata.
+
+Slack Events
+POST /slack/events
+Handles incoming Slack events and URL verification challenges.
+
+Error Codes:
+400 - Bad Request
+500 - Internal Server Error
